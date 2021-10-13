@@ -4,14 +4,12 @@ const getAllCategories = async (req, res) => {
   try {
     const { limit } = req.query;
 
-    
-
     const findCategories = await db.getConnection(function (err, connection) {
       if (err) throw err; // not connected!
 
       // Use the connection
       connection.query(
-        `SELECT * FROM cat_articulos LIMIT ${limit};`,
+        `SELECT * FROM articulos_lineas LIMIT ${limit};`,
         function (error, results, fields) {
           // When done with the connection, release it.
 
