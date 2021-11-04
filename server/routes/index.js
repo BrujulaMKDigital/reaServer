@@ -9,7 +9,13 @@ import { categories } from "../controllers/index";
 
 const router = Router();
 
-//categories
-router.route("/categories").get(categories.getAllCategories);
+//return all articulos_lineas
+router.route("/articuloslinea").get(categories.getAllArtLines);
+
+//return all categories (articulos_lineas where IdPadre = NULL)
+router.route("/categories").get(categories.getArtLineasParents);
+
+//return articulos_lineas by IdPadre
+router.route("/articuloslinea/:IdPadre").get(categories.getArtLineasByIdPadre);
 
 export default router;
