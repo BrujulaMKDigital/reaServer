@@ -181,10 +181,48 @@ const getCatArticulosByIdArticulo = async (req, res) => {
   }
 };
 
+const getImagesByIdArticulo = async (req, res) => {
+  try {
+    const { IdArticulo } = req.params;
+
+    const field = null;
+
+    const findCategories = await db.getConnection(function (err, connection) {
+      if (err) throw err; // not connected!
+
+      // Use the connection
+      connection.query(
+        `SELECT * FROM imagenes_cloud_articulos WHERE IdArticulo = '${IdArticulo}';`,
+        function (error, results, fields) {
+          // When done with the connection, release it.
+
+          let count = results.length;
+
+          let response = {
+            count,
+            results,
+          };
+
+          res.status(200).send(response);
+          connection.release();
+
+          // Handle error after the release.
+          if (error) throw error;
+          // Don't use the connection here, it has been returned to the pool.
+        }
+      );
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error.message);
+  }
+};
+
 export {
   getAllArtLines,
   getArtLineasParents,
   getArtLineasByIdPadre,
   getCatArticulosByIdLinea,
   getCatArticulosByIdArticulo,
+  getImagesByIdArticulo,
 };

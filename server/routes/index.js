@@ -26,4 +26,9 @@ router
   .route("/catArticulosByIdArticulo/:IdArticulo")
   .get(categories.getCatArticulosByIdArticulo);
 
+// return images by IdArticulo
+router
+  .route("/articuloImagen/:IdArticulo")
+  .get(categories.getImagesByIdArticulo);
+
 export default router;
