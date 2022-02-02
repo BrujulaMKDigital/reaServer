@@ -239,7 +239,7 @@ const getPriceByIdArticulo = async (req, res) => {
 
       // Use the connection
       connection.query(
-        `SELECT IdPrecio, IdArticulo,PrecioContado FROM listadeprecios WHERE IdArticulo = '${IdArticulo}';`,
+        `SELECT * FROM listadeprecios WHERE IdArticulo = '${IdArticulo}';`,
         function (error, results, fields) {
           // When done with the connection, release it.
 
