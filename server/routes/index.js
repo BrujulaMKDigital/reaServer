@@ -31,4 +31,9 @@ router
   .route("/articuloImagen/:IdArticulo")
   .get(categories.getImagesByIdArticulo);
 
+// return prices by IdArticulo
+router
+  .route("/precioArticulo/:IdArticulo")
+  .get(categories.getPriceByIdArticulo);
+
 export default router;

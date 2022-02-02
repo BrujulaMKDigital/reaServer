@@ -11,7 +11,7 @@ const getAllArtLines = async (req, res) => {
 
       // Use the connection
       connection.query(
-        `SELECT * FROM articulos_lineas LIMIT ${limit};`,
+        `SELECT IdLinea, Descripcion FROM articulos_lineas LIMIT ${limit};`,
         function (error, results, fields) {
           // When done with the connection, release it.
 
@@ -123,7 +123,18 @@ const getCatArticulosByIdLinea = async (req, res) => {
 
       // Use the connection
       connection.query(
-        `SELECT * FROM cat_articulos WHERE IdLinea = '${IdLinea}';`,
+        `SELECT  listArt.IdArticulo,
+        listArt.NombreArticulo,
+        listArt.DescripcionEnLinea,
+        listArt.IdLinea,
+        listPrice.IdPrecio, 
+        listPrice.IdArticulo,
+        listPrice.PrecioContado
+        
+        FROM cat_articulos listArt 
+        INNER JOIN listadeprecios listPrice ON listArt.IdArticulo = listPrice.IdArticulo
+        INNER JOIN imagenes_cloud_articulos img_art 
+        WHERE listArt.IdLinea = '${IdLinea}';`,
         function (error, results, fields) {
           // When done with the connection, release it.
 
@@ -218,6 +229,43 @@ const getImagesByIdArticulo = async (req, res) => {
   }
 };
 
+const getPriceByIdArticulo = async (req, res) => {
+  try {
+    const { IdArticulo } = req.params;
+
+    const field = null;
+
+    const findCategories = await db.getConnection(function (err, connection) {
+      if (err) throw err; // not connected!
+
+      // Use the connection
+      connection.query(
+        `SELECT IdPrecio, IdArticulo,PrecioContado FROM listadeprecios WHERE IdArticulo = '${IdArticulo}';`,
+        function (error, results, fields) {
+          // When done with the connection, release it.
+
+          let count = results.length;
+
+          let response = {
+            count,
+            results,
+          };
+
+          res.status(200).send(response);
+          connection.release();
+
+          // Handle error after the release.
+          if (error) throw error;
+          // Don't use the connection here, it has been returned to the pool.
+        }
+      );
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).send(error.message);
+  }
+};
+
 export {
   getAllArtLines,
   getArtLineasParents,
@@ -225,4 +273,5 @@ export {
   getCatArticulosByIdLinea,
   getCatArticulosByIdArticulo,
   getImagesByIdArticulo,
+  getPriceByIdArticulo,
 };
