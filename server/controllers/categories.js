@@ -132,7 +132,7 @@ const getCatArticulosByIdLinea = async (req, res) => {
         listPrice.PrecioContado
         FROM cat_articulos listArt 
         INNER JOIN listadeprecios listPrice ON listArt.IdArticulo = listPrice.IdArticulo
-        INNER JOIN imagenes_cloud_articulos img_art 
+        
         WHERE listArt.IdLinea = '${IdLinea}';`,
         function (error, results, fields) {
           // When done with the connection, release it.
