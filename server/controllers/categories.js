@@ -127,13 +127,15 @@ const getCatArticulosByIdLinea = async (req, res) => {
         listArt.NombreArticulo,
         listArt.DescripcionEnLinea,
         listArt.IdLinea,
-        listPrice.IdPrecio, 
         listPrice.IdArticulo,
-        listPrice.PrecioContado
+        listPrice.PrecioContado,
+        imgArt.url AS urlImg
         FROM cat_articulos listArt 
         INNER JOIN listadeprecios listPrice ON listArt.IdArticulo = listPrice.IdArticulo
-        
-        WHERE listArt.IdLinea = '${IdLinea}';`,
+        LEFT JOIN imagenes_cloud_articulos imgArt ON listArt.IdArticulo = imgArt.IdArticulo
+        WHERE listArt.IdLinea = '${IdLinea}' GROUP BY 
+        listPrice.IdArticulo
+       `,
         function (error, results, fields) {
           // When done with the connection, release it.
 
