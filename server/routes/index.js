@@ -15,6 +15,9 @@ router.route("/articuloslinea").get(categories.getAllArtLines);
 //return all categories (articulos_lineas where IdPadre = NULL)
 router.route("/categories").get(categories.getArtLineasParents);
 
+//return all subcategories (articulos_lineas where IdPadre != NULL)
+router.route("/allSubcategories").get(categories.getAllSubCategories);
+
 //return articulos_lineas by IdPadre
 router.route("/articuloslinea/:IdPadre").get(categories.getArtLineasByIdPadre);
 
