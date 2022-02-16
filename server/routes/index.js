@@ -10,7 +10,7 @@ import { categories } from "../controllers/index";
 const router = Router();
 
 //return all articulos_lineas
-router.route("/allCategories").get(categories.getAllArtLines);
+router.route("/articuloslinea").get(categories.getAllArtLines);
 
 //return all categories (articulos_lineas where IdPadre = NULL)
 router.route("/categories").get(categories.getArtLineasParents);
