@@ -67,7 +67,7 @@ const getAllSubCategories = async (req, res) => {
           res.status(200).send(response);
           connection.release();
 
-          // Handle error after the release.
+          // Handle error after the release
           if (error) throw error;
           // Don't use the connection here, it has been returned to the pool.
         }
